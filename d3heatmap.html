@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curricular Unit Evaluation Heatmap</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <style>
+        .cell {
+            stroke: #fff;
+        }
+        .cell:hover {
+            opacity: 0.8;
+        }
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border-radius: 5px;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Curricular Unit Evaluation Heatmap</h2>
+    <div class="tooltip" style="display: none;"></div>
+    <svg width="800" height="600"></svg>
+
+    <script>
+        // Load the data from the JSON file
+        d3.json("data.json").then(function(data) {
+            console.log(data);  // Log the data to the console
+
+            // Set up margins and dimensions for the chart
+            const margin = { top: 50, right: 50, bottom: 100, left: 200 };
+            const width = 800 - margin.left - margin.right;
+            const height = 600 - margin.top - margin.bottom;
+
+            // Create the SVG container
+            const svg = d3.select("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            // Define the color scale for the heatmap (approved_rate, evaluation_rate, and no_eval_rate)
+            const colorScale = d3.scaleSequential(d3.interpolateViridis)
+                .domain([0, 1]);  // Normalize to 0-1 range
+
+            // Get the unique courses
+            const courses = Array.from(new Set(data.map(d => d.Course)));
+
+            // Set the scales for the axes
+            const xScale = d3.scaleBand()
+                .domain(["Approved", "Evaluations", "No Evaluation"])
+                .range([0, width])
+                .padding(0.05);
+
+            const yScale = d3.scaleBand()
+                .domain(courses)
+                .range([0, height])
+                .padding(0.05);
+
+            // Create axes
+            svg.append("g")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(xScale));
+
+            svg.append("g")
+                .call(d3.axisLeft(yScale));
+
+            // Create the heatmap cells
+            const cells = svg.selectAll(".cell")
+                .data(data)
+                .enter().append("rect")
+                .attr("class", "cell")
+                .attr("x", function(d) {
+                    if (d.approved_rate) return xScale("Approved");
+                    if (d.evaluation_rate) return xScale("Evaluations");
+                    return xScale("No Evaluation");
+                })
+                .attr("y", d => yScale(d.Course))
+                .attr("width", xScale.bandwidth())
+                .attr("height", yScale.bandwidth())
+                .attr("fill", d => {
+                    if (d.approved_rate) return colorScale(d.approved_rate);
+                    if (d.evaluation_rate) return colorScale(d.evaluation_rate);
+                    return colorScale(d.no_eval_rate);
+                })
+                .on("mouseover", function(event, d) {
+                    // Show tooltip on hover
+                    const tooltip = d3.select(".tooltip");
+                    tooltip.style("display", "block")
+                        .html(`
+                            <strong>Course:</strong> ${d.Course} <br>
+                            <strong>Approved Rate:</strong> ${d.approved_rate} <br>
+                            <strong>Evaluation Rate:</strong> ${d.evaluation_rate} <br>
+                            <strong>No Evaluation Rate:</strong> ${d.no_eval_rate}
+                        `)
+                        .style("left", (event.pageX + 5) + "px")
+                        .style("top", (event.pageY - 28) + "px");
+                })
+                .on("mouseout", function() {
+                    // Hide tooltip on mouseout
+                    d3.select(".tooltip").style("display", "none");
+                });
+        });
+    </script>
+
+</body>
+</html>
