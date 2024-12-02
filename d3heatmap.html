@@ -32,7 +32,7 @@
     <script>
         // Load the data from the JSON file
         d3.json("data.json").then(function(data) {
-            console.log(data);  // Log the data to the console
+            console.log(data);  
 
             // Set up margins and dimensions for the chart
             const margin = { top: 50, right: 50, bottom: 100, left: 200 };
@@ -48,12 +48,12 @@
 
             // Define the color scale for the heatmap (approved_rate, evaluation_rate, and no_eval_rate)
             const colorScale = d3.scaleSequential(d3.interpolateViridis)
-                .domain([0, 1]);  // Normalize to 0-1 range
+                .domain([0, 1]);  
 
-            // Get the unique courses
+            // Get unique courses
             const courses = Array.from(new Set(data.map(d => d.Course)));
 
-            // Set the scales for the axes
+            // Set scales for axes
             const xScale = d3.scaleBand()
                 .domain(["Approved", "Evaluations", "No Evaluation"])
                 .range([0, width])
@@ -72,7 +72,7 @@
             svg.append("g")
                 .call(d3.axisLeft(yScale));
 
-            // Create the heatmap cells
+            // Create heatmap cells
             const cells = svg.selectAll(".cell")
                 .data(data)
                 .enter().append("rect")
@@ -104,7 +104,7 @@
                         .style("top", (event.pageY - 28) + "px");
                 })
                 .on("mouseout", function() {
-                    // Hide tooltip on mouseout
+                    // Hide tooltip 
                     d3.select(".tooltip").style("display", "none");
                 });
         });

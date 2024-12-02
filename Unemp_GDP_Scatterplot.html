@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-0589a81ddbe0522a1c40c4ce60ddafac"}, "mark": {"type": "circle"}, "encoding": {"color": {"field": "Dropout Percentage", "title": "Percentage of Dropouts", "type": "quantitative"}, "tooltip": [{"field": "Unemployment rate", "type": "quantitative"}, {"field": "GDP", "type": "quantitative"}, {"field": "Nacionality", "type": "nominal"}, {"field": "Dropout Percentage", "type": "quantitative"}, {"field": "Dropouts", "type": "quantitative"}, {"field": "Total Students", "type": "quantitative"}], "x": {"field": "Unemployment rate", "title": "Unemployment Rate", "type": "quantitative"}, "y": {"field": "GDP", "title": "GDP", "type": "quantitative"}}, "height": 400, "title": "Influence of Unemployment Rate and GDP on Dropout Rate", "width": 600, "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json", "datasets": {"data-0589a81ddbe0522a1c40c4ce60ddafac": [{"Unemployment rate": 7.6, "GDP": 0.32, "Total Students": 444, "Dropouts": 101, "Dropout Percentage": 22.74774774774775}, {"Unemployment rate": 8.9, "GDP": 3.51, "Total Students": 309, "Dropouts": 50, "Dropout Percentage": 16.181229773462782}, {"Unemployment rate": 9.4, "GDP": -3.12, "Total Students": 417, "Dropouts": 87, "Dropout Percentage": 20.863309352517987}, {"Unemployment rate": 10.8, "GDP": 1.74, "Total Students": 404, "Dropouts": 81, "Dropout Percentage": 20.049504950495052}, {"Unemployment rate": 11.1, "GDP": 2.02, "Total Students": 342, "Dropouts": 57, "Dropout Percentage": 16.666666666666664}, {"Unemployment rate": 12.4, "GDP": 1.79, "Total Students": 377, "Dropouts": 52, "Dropout Percentage": 13.793103448275861}, {"Unemployment rate": 12.7, "GDP": -1.7, "Total Students": 321, "Dropouts": 59, "Dropout Percentage": 18.38006230529595}, {"Unemployment rate": 13.9, "GDP": 0.79, "Total Students": 319, "Dropouts": 63, "Dropout Percentage": 19.74921630094044}, {"Unemployment rate": 15.5, "GDP": -4.06, "Total Students": 302, "Dropouts": 56, "Dropout Percentage": 18.543046357615893}, {"Unemployment rate": 16.2, "GDP": -0.92, "Total Students": 277, "Dropouts": 64, "Dropout Percentage": 23.104693140794225}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>
