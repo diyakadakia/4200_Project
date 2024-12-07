@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analysis of Academic Factors</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -18,9 +19,11 @@
 
     <h1 class="header">Effect of Curricular Units on Dropout Rates</h1>
 
-    <div>
-        <iframe src="d3heatmap.html" width="100%" height="600px" frameborder="0"></iframe>
-    </div>
+  
+    <h2>Curricular Unit Evaluation Heatmap</h2>
+    <div class="tooltip" style="display: none;"></div>
+    <svg width="800" height="600"></svg>
+    <script src="heatmap.js"></script>
 
     <p class="caption" id="main"> 
         The visualization provides an overview of the effect of curricular units and how well each course is being taught. The heatmap shows 
